@@ -12,7 +12,7 @@ export const removeContact = createAsyncThunk(
 
       return contacts;
     } catch (error) {
-      return rejectedWithValue(error);
+      return rejectedWithValue(error.message);
     }
   }
 );

@@ -9,7 +9,7 @@ export function Contact({ contact }) {
   return (
     <li className={css.contact}>
       <div>
-        {contact.name} : {contact.phone}
+        {contact.name} : {contact.number}
       </div>
       <button
         className={css.textContact}
@@ -25,7 +25,7 @@ export function Contact({ contact }) {
 Contact.propTypes = {
   contact: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    phone: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }),
 };
