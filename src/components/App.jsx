@@ -1,39 +1,20 @@
 import { Filter } from './Filter/Filter';
-
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { ContactList } from './ContactList/ContactList';
 import { FormAddContacts } from './FormAddContacts/FormAddContacts';
-import { nanoid } from 'nanoid';
-import { useSelector, useDispatch } from 'react-redux';
-import { setContacts, setFilter } from 'redux/contactSlice';
+import { fetchContacts } from 'redux/servises/fetchContacts ';
+import { useSelector } from 'react-redux';
+import { selectItems } from 'redux/selectors/selectors';
 
 export function App() {
-  const contacts = useSelector(state => state.contactsData.contacts);
-
-  const filter = useSelector(state => state.contactsData.filter);
   const dispatch = useDispatch();
 
-  const addContact = contact => {
-    if (
-      contacts.some(el => el.name.toLowerCase() === contact.name.toLowerCase())
-    ) {
-      alert('!!!');
-      return;
-    }
-    const newContact = { id: nanoid(), ...contact };
-    dispatch(setContacts([newContact, ...contacts]));
-  };
+  const contacts = useSelector(selectItems);
 
-  const handleFilter = evt => {
-    dispatch(setFilter(evt.target.value));
-  };
-
-  const onDeleteContact = contactId => {
-    dispatch(setContacts(contacts.filter(contact => contact.id !== contactId)));
-  };
-
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().trim().includes(filter.toLowerCase())
-  );
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
   return (
     <div
       style={{
@@ -43,7 +24,7 @@ export function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        fontSize: 40,
+        // fontSize: 40,
         color: '#4b193e',
         flexDirection: 'column',
       }}
@@ -56,14 +37,16 @@ export function App() {
       >
         My Phonebook
       </h1>
-      <FormAddContacts onSubmit={addContact} />
+      <FormAddContacts />
       <h2>Contacts</h2>
-      <Filter value={filter} onFilterChange={handleFilter} />
-
-      <ContactList
-        contacts={filteredContacts}
-        onDeleteContact={onDeleteContact}
-      />
+      {contacts.length ? (
+        <>
+          <Filter />
+          <ContactList />
+        </>
+      ) : (
+        <p>Контактів немає</p>
+      )}
     </div>
   );
 }
