@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ContactList } from './ContactList/ContactList';
 import { FormAddContacts } from './FormAddContacts/FormAddContacts';
-import { fetchContacts } from 'redux/servises/fetchContacts ';
+import { fetchContacts } from 'redux/operations/fetchContacts ';
 import { useSelector } from 'react-redux';
 import { selectItems } from 'redux/selectors/selectors';
 
@@ -24,7 +24,7 @@ export function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-end',
-        // fontSize: 40,
+
         color: '#4b193e',
         flexDirection: 'column',
       }}
